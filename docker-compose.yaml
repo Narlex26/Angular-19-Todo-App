@@ -1,0 +1,38 @@
+
+services:
+ 
+
+  ### 🔹 Angular (serveur de dev sur port 4200)
+  angular:
+    build: .
+    container_name: angular_front
+    ports:
+      - "80:80"
+    networks:
+      - app_network
+
+  ### 🔹 MySQL
+  # db:
+  #   image: mysql:8
+  #   container_name: mysql_db
+  #   restart: unless-stopped
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: myway_db
+  #     MYSQL_USER: myway
+  #     MYSQL_PASSWORD: myway
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - db_data:/var/lib/mysql
+  #   networks:
+  #     - app_way
+
+networks:
+  app_network:
+    driver: bridge
+
+# volumes:
+#   db_data:
+
+

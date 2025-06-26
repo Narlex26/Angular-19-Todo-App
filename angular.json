@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "abubakkar-apps": {
+    "apps": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/abubakkar-apps",
+            "outputPath": "dist/apps",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "abubakkar-apps:build:production"
+              "buildTarget": "apps:build:production"
             },
             "development": {
-              "buildTarget": "abubakkar-apps:build:development"
+              "buildTarget": "apps:build:development"
             }
           },
           "defaultConfiguration": "development"
