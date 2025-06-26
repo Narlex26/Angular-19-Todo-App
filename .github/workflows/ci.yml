@@ -58,10 +58,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker Pull
-        run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-frontend:latest
       - name: Docker Build
         run: sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-frontend:latest .
+      # - name: Docker Pull
+      #   run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-frontend:latest
+      # - name: Docker Build
+      #   run: sudo docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-frontend:latest .
       - name: Docker Push
         run: sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-frontend:latest
 
