@@ -36,8 +36,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20.18.1'
-      - name: Install chromium
-        run: apt-get install -y chromium-browser
       - name: Install Angular CLI
         run: npm install -g @angular/cli
       - name: Install dependencies
