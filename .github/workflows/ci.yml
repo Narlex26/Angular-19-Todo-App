@@ -5,7 +5,7 @@ on:
     branches:
       - develop
       - main
-      - cicd 
+      - cicd
   pull_request:
     branches:
       - develop
@@ -27,7 +27,7 @@ jobs:
         run: npm install -g @angular/cli
       - name: Build application
         run: ng build
-  
+
   test:
     runs-on: self-hosted
     needs: build
@@ -71,4 +71,3 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
