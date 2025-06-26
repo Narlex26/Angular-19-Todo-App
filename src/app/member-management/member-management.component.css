@@ -21,6 +21,10 @@
   background-color: #222;
 }
 
+.member-table th {
+  font-weight: bold;
+}
+
 .actions {
   text-align: center;
   white-space: nowrap;
@@ -92,7 +96,7 @@
 
 /* Boutons */
 .btn-success {
-  background-color: #28a745;
+  background-color: goldenrod;
   border: none;
   padding: 8px 16px;
   color: white;
