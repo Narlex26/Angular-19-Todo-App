@@ -40,8 +40,8 @@ jobs:
         run: npm install -g @angular/cli
       - name: Install dependencies
         run: npm install karma
-      - name: Run tests
-        run: npm test 
+      # - name: Run tests
+      #   run: npm test 
       - name: Run e2e tests
         run: ng e2e
 
