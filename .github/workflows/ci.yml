@@ -1,0 +1,57 @@
+name: angular-ci
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - cicd 
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.18.1'
+      - name: Install dependencies
+        run: npm install
+      - name: Build application
+        run: npm run build
+  
+  test:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.18.1'
+      - name: Run tests
+        run: ng test
+      - name: Run e2e tests
+        run: ng e2e
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.18.1'
+      - name: Install dependencies
+        run: npm install
+      - name: Build application
+        run: ng build --prod
