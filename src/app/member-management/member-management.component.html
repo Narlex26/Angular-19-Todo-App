@@ -1,0 +1,65 @@
+<div class="container mt-5 position-relative">
+
+  <h1 class="mb-4">Members List</h1>
+  <div class="member-management">
+    <table class="member-table">
+      <thead>
+      <tr>
+        <th>Lastname</th>
+        <th>Firstname</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let member of members">
+        <td>{{ member.lastName }}</td>
+        <td>{{ member.firstName }}</td>
+        <td>{{ member.email }}</td>
+        <td class="actions">
+          <button (click)="editMember(member)" title="Update">✏️</button>
+          <button (click)="deleteMember(member.id)" title="Delete">🗑️</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert" style="margin-bottom: 15px;">
+      {{ errorMessage }}
+    </div>
+
+    <div class="add-button-container">
+      <button (click)="addMember()" class="btn btn-primary">
+        ➕ ADD MEMBER
+      </button>
+    </div>
+
+    <!-- Modale formulaire -->
+    <div class="modal" [class.show]="showForm" (click)="cancelEdit()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <h2>{{ editingMemberId ? 'Update Member' : 'Add Member' }}</h2>
+
+        <form [formGroup]="memberForm" (ngSubmit)="submitForm()">
+          <div class="form-group mb-2">
+            <label>First Name</label>
+            <input formControlName="firstName" class="form-control" />
+          </div>
+          <div class="form-group mb-2">
+            <label>Last Name</label>
+            <input formControlName="lastName" class="form-control" />
+          </div>
+          <div class="form-group mb-3">
+            <label>Email</label>
+            <input formControlName="email" class="form-control" />
+          </div>
+
+          <button type="submit" class="btn btn-success me-2" [disabled]="memberForm.invalid">
+            {{ editingMemberId ? 'Update' : 'Add' }}
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>

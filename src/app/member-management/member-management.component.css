@@ -1,0 +1,121 @@
+.member-management {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.member-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 2px solid goldenrod;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.member-table th, .member-table td {
+  border: 1px solid goldenrod;
+  padding: 10px;
+  text-align: left;
+  background-color: #222;
+}
+
+.member-table th {
+  font-weight: bold;
+}
+
+.actions {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.actions button {
+  margin-right: 8px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 1.1rem;
+}
+
+.add-button-container {
+  text-align: center;
+}
+
+.add-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+/* Overlay modale */
+.modal {
+  display: none; /* cachée par défaut */
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Afficher la modale */
+.modal.show {
+  display: flex;
+}
+
+/* Contenu de la modale */
+.modal-content {
+  background: #222; /* fond sombre */
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  color: #fff;
+  box-shadow: 0 0 10px goldenrod;
+}
+
+/* Inputs */
+.modal-content input.form-control {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #333;
+  color: #fff;
+}
+
+/* Boutons */
+.btn-success {
+  background-color: goldenrod;
+  border: none;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-success:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
