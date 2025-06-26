@@ -6,7 +6,7 @@ import { WeatherComponent } from './components/weather/weather.component';
 import { HangingGameComponent } from './hanging-game/hanging-game.component';
 
 export const routes: Routes = [
-  {path:'members', component:MemberManagementComponent,pathMatch:'full' },
+  {path:'users', component:MemberManagementComponent,pathMatch:'full' },
   {path:'tasks', component:DragDropComponent,pathMatch:'full' },
   {path:'todos',component:TodoComponent,pathMatch:'full'},
   {path: '', redirectTo: 'todos', pathMatch: 'full' },

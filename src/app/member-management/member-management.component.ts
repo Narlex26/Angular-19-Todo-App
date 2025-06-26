@@ -39,7 +39,7 @@ export class MemberManagementComponent implements OnInit {
   }
 
   loadMembers(): void {
-    this.http.get<Member[]>('http://localhost:3000/api/members')
+    this.http.get<Member[]>('http://localhost:3000/api/users')
       .subscribe(data => {
         this.members = data;
       });
@@ -57,7 +57,7 @@ export class MemberManagementComponent implements OnInit {
 
   deleteMember(id: number): void {
     if (confirm('Supprimer ce membre ?')) {
-      this.http.delete(`http://localhost:3000/api/members/${id}`)
+      this.http.delete(`http://localhost:3000/api/users/${id}`)
         .subscribe(() => this.loadMembers());
     }
   }
@@ -73,7 +73,7 @@ export class MemberManagementComponent implements OnInit {
 
     if (this.editingMemberId) {
       // Update
-      this.http.put(`http://localhost:3000/api/members/${this.editingMemberId}`, memberData)
+      this.http.put(`http://localhost:3000/api/users/${this.editingMemberId}`, memberData)
         .subscribe({
           next: () => {
             this.loadMembers();
@@ -88,7 +88,7 @@ export class MemberManagementComponent implements OnInit {
         });
     } else {
       // Create
-      this.http.post(`http://localhost:3000/api/members`, memberData)
+      this.http.post(`http://localhost:3000/api/users`, memberData)
         .subscribe({
           next: () => {
             this.loadMembers();
