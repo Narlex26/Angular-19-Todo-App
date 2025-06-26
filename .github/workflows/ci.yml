@@ -38,6 +38,8 @@ jobs:
           node-version: '20.18.1'
       - name: Install Angular CLI
         run: npm install -g @angular/cli
+      - name: Install dependencies
+        run: npm install @angular-devkit/build-angular:karma
       - name: Run tests
         run: ng test
       - name: Run e2e tests
@@ -55,5 +57,7 @@ jobs:
           node-version: '20.18.1'
       - name: Install dependencies
         run: npm install
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
       - name: Build application
         run: ng build --prod
