@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: npm install karma
       - name: Run tests
-        run: ng test --browsers=ChromeHeadless --watch=false
+        run: npm test 
       - name: Run e2e tests
         run: ng e2e
 
