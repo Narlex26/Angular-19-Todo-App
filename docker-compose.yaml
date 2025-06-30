@@ -1,6 +1,5 @@
-
 services:
- 
+
 
   ### 🔹 Angular (serveur de dev sur port 4200)
   angular:
@@ -15,7 +14,5 @@ networks:
   app_network:
     driver: bridge
     external: true
-
-
 
 
