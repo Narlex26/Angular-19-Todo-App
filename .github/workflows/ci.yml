@@ -53,6 +53,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: develop
       - name: Docker Login
         uses: docker/login-action@v3
         with:
@@ -64,6 +66,8 @@ jobs:
           context: .
           push: true
           tags: jobmounchili/todo-app-frontend:latest
+      - name: Docker Compose Up
+        run: docker compose up -d
 
 
   deploy-prod:
@@ -72,10 +76,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: main
       - name: Docker Login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker Compose Up
-        run: docker compose up -d
+      # - name: Docker Compose Up
+      #   run: docker compose up -d
