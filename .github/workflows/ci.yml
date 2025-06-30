@@ -53,19 +53,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Vérifier la connexion Dockers
-        run: |
-          sudo systemctl is-active --quiet docker || sudo systemctl start docker
-          sudo docker info
+
       - name: Docker Login
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker Build
-        run: sudo docker build -t jobmounchili/todo-app-frontend:latest .
-      - name: Docker Push
-        run: sudo docker push jobmounchili/todo-app-frontend:latest
+      - name: Docker build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: jobmounchili/todo-app-frontend:latest
+
 
   deploy-prod:
     runs-on: self-hosted
