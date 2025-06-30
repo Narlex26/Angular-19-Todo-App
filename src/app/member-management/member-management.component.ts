@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -26,6 +26,13 @@ export class MemberManagementComponent implements OnInit {
   showForm = false;
   errorMessage: string = '';
 
+  private readonly apiKey = '36f1871726deab18e6c8261a15351637ac481b714f7f97bff660e13351c3ded9';
+  private readonly httpOptions = {
+    headers: new HttpHeaders({
+      'X-API-Key': this.apiKey
+    })
+  };
+
   constructor(private http: HttpClient, private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -39,7 +46,7 @@ export class MemberManagementComponent implements OnInit {
   }
 
   loadMembers(): void {
-    this.http.get<Member[]>('http://localhost:3000/api/users')
+    this.http.get<Member[]>('http://localhost:3000/api/users', this.httpOptions)
       .subscribe(data => {
         this.members = data;
       });
@@ -57,7 +64,7 @@ export class MemberManagementComponent implements OnInit {
 
   deleteMember(id: number): void {
     if (confirm('Supprimer ce membre ?')) {
-      this.http.delete(`http://localhost:3000/api/users/${id}`)
+      this.http.delete(`http://localhost:3000/api/users/${id}`, this.httpOptions)
         .subscribe(() => this.loadMembers());
     }
   }
@@ -73,7 +80,7 @@ export class MemberManagementComponent implements OnInit {
 
     if (this.editingMemberId) {
       // Update
-      this.http.put(`http://localhost:3000/api/users/${this.editingMemberId}`, memberData)
+      this.http.put(`http://localhost:3000/api/users/${this.editingMemberId}`, memberData, this.httpOptions)
         .subscribe({
           next: () => {
             this.loadMembers();
@@ -88,7 +95,7 @@ export class MemberManagementComponent implements OnInit {
         });
     } else {
       // Create
-      this.http.post(`http://localhost:3000/api/users`, memberData)
+      this.http.post(`http://localhost:3000/api/users`, memberData, this.httpOptions)
         .subscribe({
           next: () => {
             this.loadMembers();
