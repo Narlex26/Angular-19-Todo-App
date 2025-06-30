@@ -29,7 +29,7 @@ export class MemberManagementComponent implements OnInit {
   private readonly apiKey = '36f1871726deab18e6c8261a15351637ac481b714f7f97bff660e13351c3ded9';
   private readonly httpOptions = {
     headers: new HttpHeaders({
-      'X-API-Key': this.apiKey
+      'x-api-key': this.apiKey
     })
   };
 
