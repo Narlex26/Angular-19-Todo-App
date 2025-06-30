@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LoggerService } from '../logger.service'; // Assurez-vous que le chemin est correct
 
 interface Member {
   id: number;
@@ -26,9 +27,10 @@ export class MemberManagementComponent implements OnInit {
   showForm = false;
   errorMessage: string = '';
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {}
+  constructor(private http: HttpClient, private fb: FormBuilder, private logger: LoggerService) {}
 
   ngOnInit(): void {
+    this.logger.info('Initialisation du composant de gestion des membres');
     this.loadMembers();
 
     this.memberForm = this.fb.group({
@@ -39,13 +41,21 @@ export class MemberManagementComponent implements OnInit {
   }
 
   loadMembers(): void {
+    this.logger.info('Demande de chargement des membres depuis le backend');
     this.http.get<Member[]>('http://localhost:3000/api/users')
-      .subscribe(data => {
-        this.members = data;
+      .subscribe({
+        next: (data) => {
+          this.members = data;
+          this.logger.info(`Affichage de ${data.length} membres dans l’interface`);
+        },
+        error: (error) => {
+          this.logger.error('Échec du chargement des membres', error);
+        }
       });
   }
 
   editMember(member: Member): void {
+    this.logger.info(`L’utilisateur édite le membre ${member.id}`, member);
     this.editingMemberId = member.id!;
     this.memberForm.setValue({
       firstName: member.firstName,
@@ -57,12 +67,23 @@ export class MemberManagementComponent implements OnInit {
 
   deleteMember(id: number): void {
     if (confirm('Supprimer ce membre ?')) {
+      this.logger.info(`L’utilisateur a confirmé la suppression du membre ${id}`);
+
       this.http.delete(`http://localhost:3000/api/users/${id}`)
-        .subscribe(() => this.loadMembers());
+        .subscribe({
+          next: () => {
+            this.logger.info(`Suppression du membre ${id} déclenchée, mise à jour de l’affichage`);
+            this.loadMembers();
+          },
+          error: (error) => {
+            this.logger.error(`Erreur lors de la tentative de suppression du membre ${id}`, error);
+          }
+        });
     }
   }
 
   addMember(): void {
+    this.logger.info('L’utilisateur a ouvert le formulaire pour ajouter un nouveau membre');
     this.editingMemberId = null;
     this.memberForm.reset();
     this.showForm = true;
@@ -73,6 +94,7 @@ export class MemberManagementComponent implements OnInit {
 
     if (this.editingMemberId) {
       // Update
+      this.logger.info(`Soumission du formulaire pour mise à jour du membre ${this.editingMemberId}`, memberData);
       this.http.put(`http://localhost:3000/api/users/${this.editingMemberId}`, memberData)
         .subscribe({
           next: () => {
@@ -88,6 +110,7 @@ export class MemberManagementComponent implements OnInit {
         });
     } else {
       // Create
+      this.logger.info('Soumission du formulaire pour création d’un nouveau membre', memberData);
       this.http.post(`http://localhost:3000/api/users`, memberData)
         .subscribe({
           next: () => {
@@ -111,6 +134,7 @@ export class MemberManagementComponent implements OnInit {
 
   handleError(error: any) {
     // Exemple simple, adapter selon la structure de ton erreur backend
+    this.logger.error('Erreur affichée à l’utilisateur après soumission du formulaire', error);
     if (error.status === 400 && error.error?.message) {
       this.errorMessage = error.error.message; // message venant du back
     } else {
