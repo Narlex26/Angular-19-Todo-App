@@ -58,7 +58,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Vérifier la connexion Docker
+      - name: Vérifier la connexion Dockers
         run: sudo docker info
       - name: Docker Build
         run: sudo docker build -t jobmounchili/todo-app-frontend:latest .
