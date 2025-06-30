@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {environment} from '../../environments/environment';
 
 interface Member {
   id: number;
@@ -26,7 +27,7 @@ export class MemberManagementComponent implements OnInit {
   showForm = false;
   errorMessage: string = '';
 
-  private readonly apiKey = '36f1871726deab18e6c8261a15351637ac481b714f7f97bff660e13351c3ded9';
+  private readonly apiKey = environment.API_KEY;
   private readonly httpOptions = {
     headers: new HttpHeaders({
       'x-api-key': this.apiKey
