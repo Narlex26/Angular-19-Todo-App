@@ -65,7 +65,7 @@ export class MemberManagementComponent implements OnInit {
 
   deleteMember(id: number): void {
     if (confirm('Supprimer ce membre ?')) {
-      this.http.delete(`http://localhost:3000/api/users/${id}`, this.httpOptions)
+      this.http.delete(`${environment.apiBaseUrl}/users/${id}`, this.httpOptions)
         .subscribe(() => this.loadMembers());
     }
   }
@@ -81,7 +81,7 @@ export class MemberManagementComponent implements OnInit {
 
     if (this.editingMemberId) {
       // Update
-      this.http.put(`http://localhost:3000/api/users/${this.editingMemberId}`, memberData, this.httpOptions)
+      this.http.put(`${environment.apiBaseUrl}/users/${this.editingMemberId}`, memberData, this.httpOptions)
         .subscribe({
           next: () => {
             this.loadMembers();
@@ -96,7 +96,7 @@ export class MemberManagementComponent implements OnInit {
         });
     } else {
       // Create
-      this.http.post(`http://localhost:3000/api/users`, memberData, this.httpOptions)
+      this.http.post(`${environment.apiBaseUrl}/users`, memberData, this.httpOptions)
         .subscribe({
           next: () => {
             this.loadMembers();
