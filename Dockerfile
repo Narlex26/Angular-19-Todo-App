@@ -35,7 +35,9 @@ COPY --from=angular_builder /var/www/html/app/dist/apps/browser /usr/share/nginx
 
 COPY /docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
+
+# Exposer le port 80
 EXPOSE  80
 
-CMD ["/start-front.sh"]
+CMD ["nginx", "-g", "daemon off;"]
 
