@@ -47,7 +47,7 @@ export class MemberManagementComponent implements OnInit {
   }
 
   loadMembers(): void {
-    this.http.get<Member[]>('http://localhost:3000/api/users', this.httpOptions)
+    this.http.get<Member[]>(`${environment.apiBaseUrl}/users`, this.httpOptions)
       .subscribe(data => {
         this.members = data;
       });
