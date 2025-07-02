@@ -40,12 +40,13 @@ jobs:
           node-version: '20.18.1'
       - name: Install Angular CLI
         run: npm install -g @angular/cli
-      - name: Install dependencies
-        run: npm install karma
-      # - name: Run tests
-      #   run: npm test -- --browsers=ChromeHeadless --watch=false
-      # - name: Run e2e tests
-      #   run: ng e2e
+      - name: Install dependency Cypress for E2E testing
+        run: npm install cypress --save-dev
+      - name: Run E2E tests
+        uses: cypress-io/github-action@v5
+        with:
+          build: npm run build
+          start: npm start
 
   deploy-dev:
     runs-on: self-hosted
