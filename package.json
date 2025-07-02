@@ -6,7 +6,12 @@
     "start": "ng serve --host 0.0.0.0 --poll 1000 --disable-host-check",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:e2e": "start-server-and-test start http://localhost:4200 cypress:open",
+    "cypress:e2e:headless": "start-server-and-test start http://localhost:4200 cypress:run",
+    "e2e": "npm run cypress:e2e"
   },
   "private": true,
   "dependencies": {
@@ -30,12 +35,14 @@
     "@angular/cli": "^19.1.4",
     "@angular/compiler-cli": "^19.1.0",
     "@types/jasmine": "~5.1.0",
+    "cypress": "^13.6.0",
     "jasmine-core": "~5.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "start-server-and-test": "^2.0.3",
     "typescript": "~5.7.2"
   }
 }
