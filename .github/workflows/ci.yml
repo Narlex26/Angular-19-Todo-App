@@ -4,11 +4,12 @@ on:
   push:
     branches:
       - develop
+      - staging
       - main
-      - cicd
   pull_request:
     branches:
       - develop
+      - staging
       - main
 
 jobs:
@@ -44,8 +45,14 @@ jobs:
         run: npm install cypress --save-dev
       - name: Run E2E tests
         run: npm run cypress:e2e:headless
+        # uses: cypress-io/github-action@v5
+        # with:
+        #   start: npm start
+        #   wait-on: 'http://localhost:4200'
+        #   wait-on-timeout: 300 # time in seconds (increase if needed)
 
-  deploy-dev:
+  deploy-staging:
+    if: github.ref_name == 'staging' || github.ref_name == 'main'
     runs-on: self-hosted
     needs: test
     steps:
@@ -63,14 +70,17 @@ jobs:
         with:
           context: .
           push: true
-          tags: jobmounchili/todo-app-frontend:latest
+          tags: jobmounchili/todo-app-frontend:develop
+          build-args: |
+            BUILD_ENV=staging
       - name: Docker Compose Up
         run: docker compose up -d
 
 
   deploy-prod:
+    if: github.ref_name == 'staging' || github.ref_name == 'main'
     runs-on: self-hosted
-    needs: deploy-dev
+    needs: deploy-staging
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -81,5 +91,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # - name: Docker Compose Up
-      #   run: docker compose up -d
+      - name: Docker build and push frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: jobmounchili/todo-app-frontend:prod
+          build-args: |
+            BUILD_ENV=production
+      - name: Docker Compose Up
+        run: docker compose up -d
