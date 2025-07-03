@@ -43,13 +43,7 @@ jobs:
       - name: Install dependency Cypress for E2E testing
         run: npm install cypress --save-dev
       - name: Run E2E tests
-        uses: cypress-io/github-action@v5
-        with:
-          # browser: chrome
-          headless: true
-          start: npm start
-          wait-on: 'http://localhost:4200'
-          wait-on-timeout: 300 # time in seconds (increase if needed)
+        run: npm run cypress:e2e:headless
 
   deploy-dev:
     runs-on: self-hosted
