@@ -3,12 +3,13 @@ services:
 
   ### 🔹 Angular (serveur de dev sur port 4200)
   angular:
-    build: .
-    container_name: angular_front
+    image: monimage:${BUILD_ENV}
     ports:
       - "80:80"
     networks:
       - app_network
+    environment:
+    - NODE_ENV=${BUILD_ENV}
 
 networks:
   app_network:

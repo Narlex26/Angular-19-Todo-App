@@ -1,5 +1,8 @@
 FROM node:22 AS angular_builder
 
+ARG BUILD_ENV
+
+
 WORKDIR /var/www/html/app
 
 COPY . .
@@ -24,8 +27,9 @@ RUN apt-get update && apt-get install -y \
 
 RUN npm install
 
+ENV NODE_ENV=$BUILD_ENV
 # # Builder l'app Angular en prod
-RUN npx ng build --configuration production
+RUN npx ng build --configuration=$BUILD_ENV
 
 # Étape 2 : NGINX pour servir les fichiers Angular compilés
 FROM nginx:alpine AS nginx_runner
