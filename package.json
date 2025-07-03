@@ -10,8 +10,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:e2e": "start-server-and-test start http://localhost:4200 cypress:open",
-    "cypress:e2e:headless": "start-server-and-test start http://localhost:4200 cypress:run",
-    "e2e": "npm run cypress:e2e"
+    "cypress:e2e:headless": "start-server-and-test start http://localhost:4200 cypress:run"
   },
   "private": true,
   "dependencies": {
