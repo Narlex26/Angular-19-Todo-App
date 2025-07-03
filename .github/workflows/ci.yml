@@ -58,7 +58,9 @@ jobs:
     needs: test
     steps:
       - name: 🔍 Debug BUILD_ENV
-        run: echo "BUILD_ENV=${{ secrets.BUILD_ENV }}"
+        run: |
+          echo "BUILD_ENV=${{ github.environment }}"
+          echo "BUILD_ENV=${{ github.ref }}"
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -75,7 +77,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: jobmounchili/todo-app-frontend:develop
+          tags: jobmounchili/todo-app-frontend:staging
           build-args: |
             BUILD_ENV=staging
       - name: Docker Compose Up
@@ -89,7 +91,9 @@ jobs:
     needs: deploy-staging
     steps:
       - name: 🔍 Debug BUILD_ENV
-        run: echo "BUILD_ENV=${{ secrets.BUILD_ENV }}"
+        run: |
+          echo "BUILD_ENV=${{ github.environment }}"
+          echo "BUILD_ENV=${{ github.ref }}"
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -100,7 +104,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Create .env for Compose
-        run: echo "BUILD_ENV=productions" > .env
+        run: echo "BUILD_ENV=production" > .env
       - name: Docker build and push frontend
         uses: docker/build-push-action@v6
         with:
