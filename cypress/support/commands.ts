@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
 // Commandes personnalisées pour les tests Member Management
+import {environment} from '../../src/environments/environment';
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -38,13 +40,14 @@ declare global {
 }
 
 Cypress.Commands.add('interceptMemberAPIs', () => {
-  const API_BASE_URL = 'http://localhost:3000/api';
+  const API_BASE_URL = environment.apiBaseUrl;
+  const API_KEY = environment.API_KEY;
   cy.intercept(
     {
       method: 'GET',
       url: `${API_BASE_URL}/users`,
       headers: {
-        'x-api-key': '36f1871726deab18e6c8261a15351637ac481b714f7f97bff660e13351c3ded9'
+        'x-api-key': API_KEY
       }
     },
     { fixture: 'members.json' }
@@ -55,7 +58,7 @@ Cypress.Commands.add('interceptMemberAPIs', () => {
       method: 'POST',
       url: `${API_BASE_URL}/users`,
       headers: {
-        'x-api-key': '36f1871726deab18e6c8261a15351637ac481b714f7f97bff660e13351c3ded9'
+        'x-api-key': API_KEY
       }
     },
     {
@@ -69,7 +72,7 @@ Cypress.Commands.add('interceptMemberAPIs', () => {
       method: 'PUT',
       url: `${API_BASE_URL}/users/*`,
       headers: {
-        'x-api-key': '36f1871726deab18e6c8261a15351637ac481b714f7f97bff660e13351c3ded9'
+        'x-api-key': API_KEY
       }
     },
     { statusCode: 200 }
@@ -80,7 +83,7 @@ Cypress.Commands.add('interceptMemberAPIs', () => {
       method: 'DELETE',
       url: `${API_BASE_URL}/users/*`,
       headers: {
-        'x-api-key': '36f1871726deab18e6c8261a15351637ac481b714f7f97bff660e13351c3ded9'
+        'x-api-key': API_KEY
       }
     },
     { statusCode: 200 }
