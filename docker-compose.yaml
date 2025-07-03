@@ -3,7 +3,7 @@ services:
 
   ### 🔹 Angular (serveur de dev sur port 4200)
   angular:
-    image: jobmounchili/todo-app-frontend::${BUILD_ENV}
+    image: jobmounchili/todo-app-frontend:${BUILD_ENV}
     ports:
       - "80:80"
     networks:
