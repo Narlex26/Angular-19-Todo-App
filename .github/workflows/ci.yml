@@ -73,7 +73,7 @@ jobs:
           push: true
           tags: jobmounchili/todo-app-frontend:develop
           build-args: |
-            BUILD_ENV= ${{ secrets.BUILD_ENV }}
+            BUILD_ENV=${{ secrets.BUILD_ENV }}
       - name: Docker Compose Up
         run: docker compose up -d
 
@@ -100,6 +100,6 @@ jobs:
           push: true
           tags: jobmounchili/todo-app-frontend:production
           build-args: |
-            BUILD_ENV= ${{ secrets.BUILD_ENV }}
+            BUILD_ENV=${{ secrets.BUILD_ENV }}
       - name: Docker Compose Up
         run: docker compose up -d
