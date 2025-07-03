@@ -54,12 +54,13 @@ jobs:
   deploy-staging:
     if: github.ref_name == 'staging' || github.ref_name == 'main'
     runs-on: self-hosted
+    environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'staging' }}
     needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: develop
+          ref: staging
       - name: Docker Login
         uses: docker/login-action@v3
         with:
@@ -72,7 +73,7 @@ jobs:
           push: true
           tags: jobmounchili/todo-app-frontend:develop
           build-args: |
-            BUILD_ENV=staging
+            BUILD_ENV= ${{ inputs.environment }}
       - name: Docker Compose Up
         run: docker compose up -d
 
@@ -80,6 +81,7 @@ jobs:
   deploy-prod:
     if: github.ref_name == 'staging' || github.ref_name == 'main'
     runs-on: self-hosted
+    environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'staging' && 'staging' }}
     needs: deploy-staging
     steps:
       - name: Checkout code
@@ -98,6 +100,6 @@ jobs:
           push: true
           tags: jobmounchili/todo-app-frontend:prod
           build-args: |
-            BUILD_ENV=production
+            BUILD_ENV= ${{ inputs.environment }}
       - name: Docker Compose Up
         run: docker compose up -d
