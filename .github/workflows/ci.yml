@@ -38,7 +38,7 @@ jobs:
         run: |
           curl -H 'Content-Type: application/json' -d '{
             "title": "✅ Build Successful",
-            "text": "Le build a réussi en staging !"
+            "text": "Front-end (Angular-19-Todo-App) : Le build a réussi en ${{ github.ref_name }} !"
           }' "${{ secrets.URL_WEBHOOK }}"
 
   test:
@@ -67,7 +67,7 @@ jobs:
         run: |
           curl -H 'Content-Type: application/json' -d '{
             "title": "✅ Tests Successful",
-            "text": "Les tests E2E ont réussi !"
+            "text": "Front-end (Angular-19-Todo-App) : Les tests E2E ont réussi en ${{ github.ref_name }} !"
           }' "${{ secrets.URL_WEBHOOK }}"
 
   deploy-staging:
@@ -103,7 +103,7 @@ jobs:
         run: docker compose up -d
   
   notify-discord-deploy-staging:
-    needs: deploy-prod
+    needs: deploy-staging
     if: success()
     runs-on: ubuntu-latest
     steps:
@@ -111,7 +111,7 @@ jobs:
         run: |
           curl -H 'Content-Type: application/json' -d '{
             "title": "✅ Deployment Successful",
-            "text": "Le pipeline CI/CD a réussi en staging !"
+            "text": "Front-end (Angular-19-Todo-App) : Le pipeline CI/CD a réussi en ${{ github.ref_name }} !"
           }' "${{ secrets.URL_WEBHOOK }}"
 
 
@@ -156,5 +156,5 @@ jobs:
         run: |
           curl -H 'Content-Type: application/json' -d '{
             "title": "✅ Deployment Successful",
-            "text": "Le pipeline CI/CD a réussi en production !"
+            "text": "Front-end (Angular-19-Todo-App) : Le pipeline CI/CD a réussi en ${{ github.ref_name }} !"
           }' "${{ secrets.URL_WEBHOOK }}"
