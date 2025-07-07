@@ -28,6 +28,18 @@ jobs:
         run: npm install -g @angular/cli
       - name: Build application
         run: ng build
+  
+  notify-discord-build:
+    needs: build
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content":"✅ le build du front-end a réussi sur la branche `main` !"}' \
+          ${{ secrets.URL_WEBHOOK }}
 
   test:
     runs-on: self-hosted
@@ -45,16 +57,23 @@ jobs:
         run: npm install cypress --save-dev
       - name: Run E2E tests
         run: npm run cypress:e2e:headless
-        # uses: cypress-io/github-action@v5
-        # with:
-        #   start: npm start
-        #   wait-on: 'http://localhost:4200'
-        #   wait-on-timeout: 300 # time in seconds (increase if needed)
+    
+  notify-discord-test:
+    needs: test
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content":"✅ les tests ont réussi sur la branche `main` !"}' \
+          ${{ secrets.URL_WEBHOOK }}
 
   deploy-staging:
-    if: github.ref_name == 'staging' || github.ref_name == 'main'
+    if: github.ref_name == 'staging'
     runs-on: self-hosted
-    environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'staging' }}
+    environment: ${{ github.ref_name == 'staging' }}
     needs: test
     steps:
       - name: 🔍 Debug BUILD_ENV
@@ -82,12 +101,24 @@ jobs:
             BUILD_ENV=staging
       - name: Docker Compose Up
         run: docker compose up -d
+  
+  notify-discord-deploy-staging:
+    needs: deploy-prod
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content":"✅ Le deploy en staging a réussi sur la branche `main` !"}' \
+          ${{ secrets.URL_WEBHOOK }}
 
 
   deploy-prod:
-    if: github.ref_name == 'staging' || github.ref_name == 'main'
+    if: github.ref_name == 'main'
     runs-on: self-hosted
-    environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'staging' && 'staging' }}
+    environment: ${{ github.ref_name == 'main' }}
     needs: deploy-staging
     steps:
       - name: 🔍 Debug BUILD_ENV
@@ -115,3 +146,15 @@ jobs:
             BUILD_ENV=production
       - name: Docker Compose Up
         run: docker compose up -d
+  
+  notify-discord-deploy-main:
+    needs: deploy-prod
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content":"✅ La pipeline CI/CD a réussi sur la branche `main` !"}' \
+          ${{ secrets.URL_WEBHOOK }}
