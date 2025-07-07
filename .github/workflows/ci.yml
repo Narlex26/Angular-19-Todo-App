@@ -36,10 +36,10 @@ jobs:
     steps:
       - name: Send Discord Notification
         run: |
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d '{"content":"✅ le build du front-end a réussi sur la branche `main` !"}' \
-          ${{ secrets.URL_WEBHOOK }}
+          curl -H 'Content-Type: application/json' -d '{
+            "title": "✅ Build Successful",
+            "text": "Le build a réussi en staging !"
+          }' "${{ secrets.URL_WEBHOOK }}"
 
   test:
     runs-on: self-hosted
@@ -65,10 +65,10 @@ jobs:
     steps:
       - name: Send Discord Notification
         run: |
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d '{"content":"✅ les tests ont réussi sur la branche `main` !"}' \
-          ${{ secrets.URL_WEBHOOK }}
+          curl -H 'Content-Type: application/json' -d '{
+            "title": "✅ Tests Successful",
+            "text": "Les tests E2E ont réussi !"
+          }' "${{ secrets.URL_WEBHOOK }}"
 
   deploy-staging:
     if: github.ref_name == 'staging'
@@ -109,10 +109,10 @@ jobs:
     steps:
       - name: Send Discord Notification
         run: |
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d '{"content":"✅ Le deploy en staging a réussi sur la branche `main` !"}' \
-          ${{ secrets.URL_WEBHOOK }}
+          curl -H 'Content-Type: application/json' -d '{
+            "title": "✅ Deployment Successful",
+            "text": "Le pipeline CI/CD a réussi en staging !"
+          }' "${{ secrets.URL_WEBHOOK }}"
 
 
   deploy-prod:
@@ -154,7 +154,7 @@ jobs:
     steps:
       - name: Send Discord Notification
         run: |
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d '{"content":"✅ La pipeline CI/CD a réussi sur la branche `main` !"}' \
-          ${{ secrets.URL_WEBHOOK }}
+          curl -H 'Content-Type: application/json' -d '{
+            "title": "✅ Deployment Successful",
+            "text": "Le pipeline CI/CD a réussi en production !"
+          }' "${{ secrets.URL_WEBHOOK }}"
